@@ -20,5 +20,5 @@ runzeTests _ _ _ _= do
   putStrLn ""
   putStrLn "Running tests..."
   putStrLn ""
-  system "runhaskell -i./src -i./tests tests/runtests.hs"
+  system "runhaskell -i. -i./tests tests/runtests.hs"
   return ()
