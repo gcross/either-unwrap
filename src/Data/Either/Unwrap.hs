@@ -17,6 +17,11 @@ module Data.Either.Unwrap
     ,    isRight
     ,    fromLeft
     ,    fromRight
+    ,    eitherM
+    ,    whenLeft
+    ,    whenRight
+    ,    unlessLeft
+    ,    unlessRight
     ) where
 
 -- ---------------------------------------------------------------------------
@@ -43,3 +48,32 @@ fromLeft (Left x)  = x
 fromRight           :: Either a b -> b
 fromRight (Left _)  = error "Either.Unwrap.fromRight: Argument takes form 'Left _'" -- yuck
 fromRight (Right x) = x
+
+-- | The 'eitherM' function takes an 'Either' value and two functions which return monads.
+-- If the argument takes the form @Left _@ then the element within is passed to the first
+-- function, otherwise the element within is passed to the second function. 
+eitherM               :: Monad m => Either a b -> (a -> m c) -> (b -> m c) -> m c
+eitherM (Left x)  f _ = f x
+eitherM (Right x) _ f = f x
+
+-- | The 'whenLeft' function takes an 'Either' value and a function which returns a monad.
+-- The monad is only executed when the given argument takes the form @Left _@, otherwise
+-- it does nothing.
+whenLeft            :: Monad m => Either a b -> (a -> m ()) -> m ()
+whenLeft (Left x) f = f x
+whenLeft _ _        = return ()
+
+-- | The 'whenLeft' function takes an 'Either' value and a function which returns a monad.
+-- The monad is only executed when the given argument takes the form @Right _@, otherwise
+-- it does nothing.
+whenRight             :: Monad m => Either a b -> (b -> m ()) -> m ()
+whenRight (Right x) f = f x
+whenRight _ _         = return ()
+
+-- | A synonym of 'whenRight'.
+unlessLeft :: Monad m => Either a b -> (b -> m ()) -> m ()
+unlessLeft = whenRight
+
+-- | A synonym of 'whenLeft'.
+unlessRight :: Monad m => Either a b -> (a -> m ()) -> m ()
+unlessRight = whenLeft
