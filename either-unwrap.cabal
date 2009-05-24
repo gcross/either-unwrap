@@ -1,0 +1,14 @@
+Name:           either-unwrap
+Version:        1.0
+Cabal-Version:  >= 1.2
+License:        BSD3
+Author:         Gregory Crosswhite
+Homepage:       http://github.com/gcross/either-unwrap
+Synopsis:       Functions for probing and unwrapping values inside of Either.
+Build-Type:     Simple
+
+Library
+  Build-Depends:    base >= 3
+  Hs-Source-Dirs:   src
+  Exposed-Modules:  Data.Either.Unwrap
+  GHC-Options:      -O3
