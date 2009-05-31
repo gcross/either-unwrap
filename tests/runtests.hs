@@ -33,6 +33,15 @@ test_fromLeft_right = assertThrowsError . fromLeft $ (Right ())
 test_fromRight_left = assertEqual "Is the correct value returned?" () (fromRight (Right ()))
 test_fromRight_right = assertThrowsError . fromRight $ (Left ())
 
+test_onBoth_left = assertEqual "Is the correct value returned?" (Left "1.0") ((show `onBoth` (+1)) (Left 1 :: Either Float Int))
+test_onBoth_right = assertEqual "Is the correct value returned?" (Right 2) ((show `onBoth` (+1)) (Right 1 :: Either Float Int))
+
+test_onLeft_left = assertEqual "Is the correct value returned?" (Left "1.0") (show `onLeft` (Left 1 :: Either Float Int))
+test_onLeft_right = assertEqual "Is the correct value returned?" (Right 1) (show `onLeft` (Right 1 :: Either Float Int))
+
+test_onRight_left = assertEqual "Is the correct value returned?" (Left 1.0) (show `onRight` (Left 1 :: Either Float Int))
+test_onRight_right = assertEqual "Is the correct value returned?" (Right "1") (show `onRight` (Right 1 :: Either Float Int))
+
 test_eitherM_left = eitherM (Left ()) return (\_ -> assertFailure "eitherM chose the wrong monad!")
 test_eitherM_right = eitherM (Right ()) (\_ -> assertFailure "eitherM chose the wrong monad!") return
 
@@ -73,6 +82,20 @@ tests =
          ,    testGroup "fromRight"
               [    testCase "Left" test_fromRight_left
               ,    testCase "Right" test_fromRight_right
+              ]
+         ]
+    ,    testGroup "onX"
+         [    testGroup "onBoth"
+              [    testCase "Left" test_onBoth_left
+              ,    testCase "Right" test_onBoth_right
+              ]
+         ,    testGroup "onLeft"
+              [    testCase "Left" test_onLeft_left
+              ,    testCase "Right" test_onLeft_right
+              ]
+         ,    testGroup "onRight"
+              [    testCase "Left" test_onRight_left
+              ,    testCase "Right" test_onRight_right
               ]
          ]
     ,    testGroup "eitherM"

@@ -17,6 +17,9 @@ module Data.Either.Unwrap
     ,    isRight
     ,    fromLeft
     ,    fromRight
+    ,    onBoth
+    ,    onLeft
+    ,    onRight
     ,    eitherM
     ,    whenLeft
     ,    whenRight
@@ -48,6 +51,22 @@ fromLeft (Left x)  = x
 fromRight           :: Either a b -> b
 fromRight (Left _)  = error "Either.Unwrap.fromRight: Argument takes form 'Left _'" -- yuck
 fromRight (Right x) = x
+
+-- | The 'onBoth' function takes two functions and applies the first if iff the value
+-- takes the form 'Left _' and the second if the value takes the form 'Right _'.
+onBoth :: (a -> c) -> (b -> d) -> Either a b -> Either c d
+onBoth f _ (Left x) = Left (f x)
+onBoth _ f (Right x) = Right (f x)
+
+-- | The 'onLeft' function takes a function and applies it to an Either value
+-- iff the value takes the form 'Left _'.
+onLeft :: (a -> c) -> Either a b -> Either c b
+onLeft = (`onBoth` id)
+
+-- | The 'onLeft' function takes a function and applies it to an Either value
+-- iff the value takes the form 'Left _'.
+onRight :: (b -> c) -> Either a b -> Either a c
+onRight = (id `onBoth`)
 
 -- | The 'eitherM' function takes an 'Either' value and two functions which return monads.
 -- If the argument takes the form @Left _@ then the element within is passed to the first
