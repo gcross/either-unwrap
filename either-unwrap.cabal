@@ -15,4 +15,4 @@ Library
   Build-Depends:    base >= 3
   Hs-Source-Dirs:   .
   Exposed-Modules:  Data.Either.Unwrap
-  GHC-Options:      -O -Wall
+  GHC-Options:      -Wall
