@@ -17,6 +17,8 @@ module Data.Either.Unwrap
     ,    isRight
     ,    fromLeft
     ,    fromRight
+    ,    mapLeft
+    ,    mapRight
     ,    onBoth
     ,    onLeft
     ,    onRight
@@ -51,6 +53,16 @@ fromLeft (Left x)  = x
 fromRight           :: Either a b -> b
 fromRight (Left _)  = error "Either.Unwrap.fromRight: Argument takes form 'Left _'" -- yuck
 fromRight (Right x) = x
+
+-- | The 'mapLeft' function applies a function to the left value in the either.
+-- @mapLeft f@ equivalent to @either (Left . f) Right@.
+mapLeft :: (a -> c) -> Either a b -> Either c b
+mapLeft f = either (Left . f) Right
+
+-- | The 'mapRight' function applies a function to the right value in the either.
+-- @mapRight f@ equivalent to @either Left (Right . f)@.
+mapRight :: (b -> c) -> Either a b -> Either a c
+mapRight f = either Left (Right . f)
 
 -- | The 'onBoth' function takes two functions and applies the first if iff the value
 -- takes the form 'Left _' and the second if the value takes the form 'Right _'.

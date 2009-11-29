@@ -4,3 +4,5 @@
   Changes:
     - description: Added "onX" family of functions.
       author: Gregory Crosswhite <gcross@phys.washington.edu>
+    - description: Added "mapX" family of functions.
+      author: Gregory Crosswhite <gcross@phys.washington.edu>
