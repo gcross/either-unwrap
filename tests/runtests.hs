@@ -33,12 +33,6 @@ test_fromLeft_right = assertThrowsError . fromLeft $ (Right ())
 test_fromRight_left = assertEqual "Is the correct value returned?" () (fromRight (Right ()))
 test_fromRight_right = assertThrowsError . fromRight $ (Left ())
 
-test_mapLeft_left = assertEqual "Is the correct value returned?" (Left 2) (mapLeft (+1) (Left 1 :: Either Int Int))
-test_mapLeft_right = assertEqual "Is the correct value returned?" (Right 1) (mapLeft (+1) (Right 1 :: Either Int Int))
-
-test_mapRight_left = assertEqual "Is the correct value returned?" (Left 1) (mapRight (+1) (Left 1 :: Either Int Int))
-test_mapRight_right = assertEqual "Is the correct value returned?" (Right 2) (mapRight (+1) (Right 1 :: Either Int Int))
-
 test_onBoth_left = assertEqual "Is the correct value returned?" (Left "1.0") ((show `onBoth` (+1)) (Left 1 :: Either Float Int))
 test_onBoth_right = assertEqual "Is the correct value returned?" (Right 2) ((show `onBoth` (+1)) (Right 1 :: Either Float Int))
 
@@ -88,16 +82,6 @@ tests =
          ,    testGroup "fromRight"
               [    testCase "Left" test_fromRight_left
               ,    testCase "Right" test_fromRight_right
-              ]
-         ]
-    ,    testGroup "mapX"
-         [    testGroup "mapLeft"
-              [    testCase "Left" test_mapLeft_left
-              ,    testCase "Right" test_mapLeft_right
-              ]
-         ,    testGroup "mapRight"
-              [    testCase "Left" test_mapRight_left
-              ,    testCase "Right" test_mapRight_right
               ]
          ]
     ,    testGroup "onX"
