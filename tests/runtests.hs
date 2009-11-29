@@ -33,14 +33,14 @@ test_fromLeft_right = assertThrowsError . fromLeft $ (Right ())
 test_fromRight_left = assertEqual "Is the correct value returned?" () (fromRight (Right ()))
 test_fromRight_right = assertThrowsError . fromRight $ (Left ())
 
-test_onBoth_left = assertEqual "Is the correct value returned?" (Left "1.0") ((show `onBoth` (+1)) (Left 1 :: Either Float Int))
-test_onBoth_right = assertEqual "Is the correct value returned?" (Right 2) ((show `onBoth` (+1)) (Right 1 :: Either Float Int))
+test_mapBoth_left = assertEqual "Is the correct value returned?" (Left "1.0") ((show `mapBoth` (+1)) (Left 1 :: Either Float Int))
+test_mapBoth_right = assertEqual "Is the correct value returned?" (Right 2) ((show `mapBoth` (+1)) (Right 1 :: Either Float Int))
 
-test_onLeft_left = assertEqual "Is the correct value returned?" (Left "1.0") (show `onLeft` (Left 1 :: Either Float Int))
-test_onLeft_right = assertEqual "Is the correct value returned?" (Right 1) (show `onLeft` (Right 1 :: Either Float Int))
+test_mapLeft_left = assertEqual "Is the correct value returned?" (Left "1.0") (show `mapLeft` (Left 1 :: Either Float Int))
+test_mapLeft_right = assertEqual "Is the correct value returned?" (Right 1) (show `mapLeft` (Right 1 :: Either Float Int))
 
-test_onRight_left = assertEqual "Is the correct value returned?" (Left 1.0) (show `onRight` (Left 1 :: Either Float Int))
-test_onRight_right = assertEqual "Is the correct value returned?" (Right "1") (show `onRight` (Right 1 :: Either Float Int))
+test_mapRight_left = assertEqual "Is the correct value returned?" (Left 1.0) (show `mapRight` (Left 1 :: Either Float Int))
+test_mapRight_right = assertEqual "Is the correct value returned?" (Right "1") (show `mapRight` (Right 1 :: Either Float Int))
 
 test_eitherM_left = eitherM (Left ()) return (\_ -> assertFailure "eitherM chose the wrong monad!")
 test_eitherM_right = eitherM (Right ()) (\_ -> assertFailure "eitherM chose the wrong monad!") return
@@ -84,18 +84,18 @@ tests =
               ,    testCase "Right" test_fromRight_right
               ]
          ]
-    ,    testGroup "onX"
-         [    testGroup "onBoth"
-              [    testCase "Left" test_onBoth_left
-              ,    testCase "Right" test_onBoth_right
+    ,    testGroup "mapX"
+         [    testGroup "mapBoth"
+              [    testCase "Left" test_mapBoth_left
+              ,    testCase "Right" test_mapBoth_right
               ]
-         ,    testGroup "onLeft"
-              [    testCase "Left" test_onLeft_left
-              ,    testCase "Right" test_onLeft_right
+         ,    testGroup "mapLeft"
+              [    testCase "Left" test_mapLeft_left
+              ,    testCase "Right" test_mapLeft_right
               ]
-         ,    testGroup "onRight"
-              [    testCase "Left" test_onRight_left
-              ,    testCase "Right" test_onRight_right
+         ,    testGroup "mapRight"
+              [    testCase "Left" test_mapRight_left
+              ,    testCase "Right" test_mapRight_right
               ]
          ]
     ,    testGroup "eitherM"
