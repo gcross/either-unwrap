@@ -12,7 +12,7 @@ Synopsis:       Functions for probing and unwrapping values inside of Either.
 Build-Type:     Simple
 
 Library
-  Build-Depends:    base >= 3
+  Build-Depends:    base >= 3 && < 5
   Hs-Source-Dirs:   .
   Exposed-Modules:  Data.Either.Unwrap
   GHC-Options:      -Wall
